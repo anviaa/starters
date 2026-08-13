@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#17212b">
+<title>StartOk
+</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f3f5f7;
+color:#20252b;
+-webkit-tap-highlight-color:transparent
+}
+
+header{
+background:#17212b;
+color:#fff;
+padding:17px 15px
+}
+
+header h1{
+margin:0;
+font-size:21px
+}
+
+header p{
+margin:5px 0 0;
+font-size:13px;
+opacity:.7
+}
+
+nav{
+display:flex;
+background:#fff;
+border-bottom:1px solid #ddd;
+position:sticky;
+top:0;
+z-index:20
+}
+
+.tab{
+flex:1;
+border-radius:0;
+padding:13px 5px;
+background:#fff;
+font-size:14px
+}
+
+.tab.active{
+background:#0f253c;
+color:#fff
+}
+
+.page{
+display:none
+}
+
+.page.active{
+display:block
+}
+
+main{
+max-width:1500px;
+margin:auto;
+padding:12px
+}
+
+.toolbar{
+display:flex;
+gap:7px;
+margin-bottom:10px
+}
+
+#search{
+flex:1;
+min-width:0
+}
+
+input,select,textarea{
+font:inherit;
+border:1px solid #ccd3da;
+border-radius:8px;
+padding:9px;
+background:#fff
+}
+
+button{
+font:inherit;
+border:0;
+border-radius:8px;
+padding:9px 12px;
+cursor:pointer
+}
+
+.primary{
+background:#0b2a48;
+color:#fff
+}
+
+.secondary{
+background:#e9edf1
+}
+
+.danger{
+background:#d9534f;
+color:#fff
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:7px;
+margin-bottom:10px
+}
+
+.stat{
+background:#fff;
+border-radius:9px;
+padding:10px;
+box-shadow:0 2px 7px #0001;
+font-size:12px
+}
+
+.stat b{
+display:block;
+font-size:17px;
+margin-top:4px
+}
+
+.desktop-table{
+background:#fff;
+border-radius:10px;
+overflow:auto;
+box-shadow:0 2px 8px #0001
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1050px
+}
+
+th,td{
+padding:7px;
+border-bottom:1px solid #e5e8eb;
+text-align:left
+}
+
+th{
+background:#eef1f4;
+font-size:12px
+}
+
+td input,td select{
+width:100%;
+padding:6px
+}
+
+td textarea{
+width:150px;
+height:40px
+}
+
+.mobile-parts{
+display:none
+}
+
+.part-card{
+background:#fff;
+border-radius:11px;
+margin-bottom:9px;
+padding:12px;
+box-shadow:0 2px 8px #0001
+}
+
+.part-top{
+display:flex;
+justify-content:space-between;
+gap:10px
+}
+
+.part-name{
+font-weight:bold;
+font-size:16px
+}
+
+.part-article{
+font-size:12px;
+color:#777;
+margin-top:3px
+}
+
+.stock{
+font-weight:bold;
+font-size:18px;
+text-align:right
+}
+
+.stock small{
+display:block;
+font-size:11px;
+font-weight:normal;
+color:#777
+}
+
+.part-category{
+display:inline-block;
+background:#edf3f8;
+padding:4px 7px;
+border-radius:6px;
+font-size:11px;
+margin:9px 0
+}
+
+.part-info{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+font-size:13px
+}
+
+.info-box{
+background:#f6f7f8;
+padding:8px;
+border-radius:7px
+}
+
+.info-box b{
+display:block;
+margin-top:3px
+}
+
+.part-actions{
+display:grid;
+grid-template-columns:1fr 1fr 40px;
+gap:6px;
+margin-top:9px
+}
+
+.part-actions button{
+padding:10px 5px
+}
+
+.note-box{
+margin-top:8px;
+font-size:12px;
+color:#666;
+background:#fafafa;
+padding:7px;
+border-radius:6px
+}
+
+.mobile-edit{
+display:none;
+margin-top:9px;
+border-top:1px solid #eee;
+padding-top:9px
+}
+
+.mobile-edit.open{
+display:block
+}
+
+.edit-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.edit-grid label{
+font-size:11px;
+color:#666
+}
+
+.edit-grid input,
+.edit-grid select,
+.edit-grid textarea{
+width:100%;
+margin-top:3px
+}
+
+.edit-grid textarea{
+height:60px
+}
+
+.modal-bg{
+display:none;
+position:fixed;
+inset:0;
+background:#0008;
+z-index:100;
+align-items:flex-end;
+justify-content:center
+}
+
+.modal{
+background:#fff;
+width:100%;
+max-width:600px;
+border-radius:18px 18px 0 0;
+padding:18px;
+max-height:90vh;
+overflow:auto
+}
+
+.modal h2{
+margin-top:0
+}
+
+.form{
+display:grid;
+gap:7px
+}
+
+.form label{
+font-size:12px;
+font-weight:bold
+}
+
+.form input,
+.form select,
+.form textarea{
+width:100%
+}
+
+.form textarea{
+height:70px
+}
+
+.modal-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:14px
+}
+
+.sales-summary{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.sales-box{
+background:#fff;
+border-radius:9px;
+padding:10px;
+font-size:12px
+}
+
+.sales-box b{
+display:block;
+font-size:18px;
+margin-top:4px
+}
+
+.sell-box{
+background:#fff;
+border-radius:11px;
+padding:12px;
+margin-top:10px
+}
+
+.sell-box h3{
+margin:0 0 9px
+}
+
+.sell-grid{
+display:grid;
+grid-template-columns:1fr 90px;
+gap:7px
+}
+
+.sell-grid input{
+width:100%
+}
+
+.sell-button{
+width:100%;
+margin-top:7px
+}
+
+.history{
+margin-top:10px
+}
+
+.sale-card{
+background:#fff;
+border-radius:9px;
+padding:10px;
+margin-bottom:7px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px
+}
+
+.sale-name{
+font-weight:bold;
+font-size:14px
+}
+
+.sale-date{
+font-size:12px;
+color:#777;
+margin-top:3px
+}
+
+.sale-quantity{
+font-weight:bold
+}
+
+.statistics-card{
+background:#fff;
+border-radius:11px;
+margin-top:10px;
+overflow:hidden
+}
+
+.statistics-title{
+padding:12px;
+font-weight:bold;
+border-bottom:1px solid #eee
+}
+
+.stat-row{
+display:grid;
+grid-template-columns:1.4fr 1fr 1fr;
+padding:9px 12px;
+border-bottom:1px solid #eee;
+font-size:13px
+}
+
+.stat-row.header{
+background:#f0f2f4;
+font-weight:bold
+}
+
+.empty{
+text-align:center;
+padding:30px 10px;
+color:#777
+}
+
+@media(min-width:701px){
+
+.mobile-parts{
+display:none!important
+}
+
+.desktop-table{
+display:block
+}
+
+.modal-bg{
+align-items:center
+}
+
+.modal{
+border-radius:12px
+}
+
+}
+
+@media(max-width:700px){
+
+.desktop-table{
+display:none
+}
+
+.mobile-parts{
+display:block
+}
+
+.toolbar{
+flex-wrap:wrap
+}
+
+#category{
+width:100%
+}
+
+#addButton{
+width:100%;
+padding:12px
+}
+
+}
+
+@media(min-width:701px){
+
+.stats{
+grid-template-columns:repeat(5,1fr)
+}
+
+}
+
+@media(max-width:380px){
+
+.part-info{
+grid-template-columns:1fr
+}
+
+.sell-grid{
+grid-template-columns:1fr
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🔧 Запчастини</h1>
+<p>Стартери • генератори • комплектуючі</p>
+</header>
+
+<nav>
+<button class="tab active" id="partsTab">Запчастини</button>
+<button class="tab" id="salesTab">Продажі</button>
+</nav>
+
+<div id="partsPage" class="page active">
+
+<main>
+
+<div class="stats">
+
+<div class="stat">
+Позицій
+<b id="count">0</b>
+</div>
+
+<div class="stat">
+Наявність
+<b id="stock">0</b>
+</div>
+
+<div class="stat">
+Склад $
+<b id="warehouseValue">$0</b>
+</div>
+
+<div class="stat">
+Цього місяця
+<b id="monthlySales">0</b>
+</div>
+
+<div class="stat">
+Цього року
+<b id="yearlySales">0</b>
+</div>
+
+</div>
+
+<div class="toolbar">
+
+<input id="search" placeholder="🔎 Пошук...">
+
+<select id="category">
+
+<option value="">Усі категорії</option>
+<option value="Стартери">Стартери</option>
+<option value="Генератори">Генератори</option>
+<option value="Комплектуючі">Комплектуючі</option>
+
+</select>
+
+<button class="primary" id="addButton">
+＋ Додати
+</button>
+
+</div>
+
+
+<div class="desktop-table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Назва</th>
+<th>Артикул</th>
+<th>Категорія</th>
+<th>Наявність</th>
+<th>Закупка $</th>
+<th>Продаж $</th>
+<th>Місяць</th>
+<th>Рік</th>
+<th>Примітка</th>
+<th>✕</th>
+</tr>
+
+</thead>
+
+<tbody id="table"></tbody>
+
+</table>
+
+</div>
+
+
+<div class="mobile-parts" id="mobileParts"></div>
+
+</main>
+
+</div>
+
+
+<div id="salesPage" class="page">
+
+<main>
+
+<div class="sales-summary">
+
+<div class="sales-box">
+Цього місяця
+<b id="salesPageMonth">0 шт.</b>
+</div>
+
+<div class="sales-box">
+Цього року
+<b id="salesPageYear">0 шт.</b>
+</div>
+
+<div class="sales-box">
+12 місяців
+<b id="salesPage12">0 шт.</b>
+</div>
+
+<div class="sales-box">
+Усього
+<b id="salesPageTotal">0 шт.</b>
+</div>
+
+</div>
+
+
+<div class="sell-box">
+
+<h3>Продати запчастину</h3>
+
+<select id="salePart"></select>
+
+<div class="sell-grid">
+
+<input type="date" id="saleDate">
+
+<input type="number" id="saleQuantity" min="1" value="1">
+
+</div>
+
+<button class="primary sell-button" id="sellButton">
+Продати
+</button>
+
+</div>
+
+
+<div class="history">
+
+<div id="salesHistory"></div>
+
+</div>
+
+
+<div class="statistics-card">
+
+<div class="statistics-title">
+📊 Статистика по місяцях
+</div>
+
+<div class="stat-row header">
+<div>Місяць</div>
+<div>Продано</div>
+<div>Дохід</div>
+</div>
+
+<div id="monthlyStatistics"></div>
+
+</div>
+
+
+<div class="statistics-card">
+
+<div class="statistics-title">
+📊 Кожні 12 місяців
+</div>
+
+<div class="stat-row header">
+<div>Період</div>
+<div>Продано</div>
+<div>Дохід</div>
+</div>
+
+<div id="twelveMonthStatistics"></div>
+
+</div>
+
+</main>
+
+</div>
+
+
+<div class="modal-bg" id="modal">
+
+<div class="modal">
+
+<h2>Додати запчастину</h2>
+
+<div class="form">
+
+<label>Назва</label>
+<input id="fName">
+
+<label>Артикул</label>
+<input id="fArticle">
+
+<label>Категорія</label>
+
+<select id="fCategory">
+
+<option>Стартери</option>
+<option>Генератори</option>
+<option>Комплектуючі</option>
+
+</select>
+
+<label>Наявність</label>
+<input id="fQuantity" type="number" min="0" value="0">
+
+<label>Ціна закупки, $</label>
+<input id="fBuyPrice" type="number" min="0" step="0.01" value="0">
+
+<label>Ціна продажу, $</label>
+<input id="fSellPrice" type="number" min="0" step="0.01" value="0">
+
+<label>Примітка</label>
+<textarea id="fNote"></textarea>
+
+</div>
+
+<div class="modal-actions">
+
+<button class="secondary" id="cancelButton">
+Скасувати
+</button>
+
+<button class="primary" id="saveButton">
+Додати
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let parts=[];
+
+try{
+parts=JSON.parse(
+localStorage.getItem("starterParts")||"[]"
+);
+}catch(e){
+parts=[];
+}
+
+
+function save(){
+localStorage.setItem(
+"starterParts",
+JSON.stringify(parts)
+);
+}
+
+
+function monthKey(){
+const d=new Date();
+return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+}
+
+
+function yearKey(){
+return String(new Date().getFullYear());
+}
+
+
+function monthlySales(p){
+
+return (p.sales||[]).reduce(
+(a,s)=>
+s.date.startsWith(monthKey())
+?a+Number(s.quantity)
+:a,0
+);
+
+}
+
+
+function yearlySales(p){
+
+return (p.sales||[]).reduce(
+(a,s)=>
+s.date.startsWith(yearKey())
+?a+Number(s.quantity)
+:a,0
+);
+
+}
+
+
+function allSales(){
+
+let result=[];
+
+parts.forEach((p,pi)=>{
+
+(p.sales||[]).forEach((s,si)=>{
+
+result.push({
+partIndex:pi,
+saleIndex:si,
+name:p.name,
+article:p.article,
+date:s.date,
+quantity:Number(s.quantity),
+price:Number(p.sellPrice||0)
+});
+
+});
+
+});
+
+return result;
+
+}
+
+
+function render(){
+
+const q=document
+.getElementById("search")
+.value
+.toLowerCase()
+.trim();
+
+const cat=document
+.getElementById("category")
+.value;
+
+const filtered=parts
+.map((p,i)=>({p,i}))
+.filter(x=>{
+
+const text=(x.p.name+" "+x.p.article)
+.toLowerCase();
+
+return (!q||text.includes(q))&&
+(!cat||x.p.category===cat);
+
+});
+
+
+renderDesktop(filtered);
+renderMobile(filtered);
+
+let stock=0;
+let value=0;
+let month=0;
+let year=0;
+
+parts.forEach(p=>{
+
+stock+=Number(p.quantity||0);
+
+value+=
+Number(p.quantity||0)*
+Number(p.buyPrice||0);
+
+month+=monthlySales(p);
+year+=yearlySales(p);
+
+});
+
+
+document.getElementById("count")
+.textContent=parts.length;
+
+document.getElementById("stock")
+.textContent=stock;
+
+document.getElementById("warehouseValue")
+.textContent="$"+value.toFixed(2);
+
+document.getElementById("monthlySales")
+.textContent=month;
+
+document.getElementById("yearlySales")
+.textContent=year;
+
+}
+
+
+function renderDesktop(list){
+
+const table=document.getElementById("table");
+
+if(!list.length){
+
+table.innerHTML=
+`<tr><td colspan="10" class="empty">
+Нічого не знайдено
+</td></tr>`;
+
+return;
+
+}
+
+
+table.innerHTML=list.map(x=>{
+
+const p=x.p;
+const i=x.i;
+
+return `
+
+<tr>
+
+<td>
+<input value="${p.name||""}" data-i="${i}" data-f="name">
+</td>
+
+<td>
+<input value="${p.article||""}" data-i="${i}" data-f="article">
+</td>
+
+<td>
+
+<select data-i="${i}" data-f="category">
+
+<option ${p.category==="Стартери"?"selected":""}>
+Стартери
+</option>
+
+<option ${p.category==="Генератори"?"selected":""}>
+Генератори
+</option>
+
+<option ${p.category==="Комплектуючі"?"selected":""}>
+Комплектуючі
+</option>
+
+</select>
+
+</td>
+
+<td>
+<input type="number" min="0"
+value="${p.quantity||0}"
+data-i="${i}"
+data-f="quantity">
+</td>
+
+<td>
+<input type="number" min="0" step=".01"
+value="${p.buyPrice||0}"
+data-i="${i}"
+data-f="buyPrice">
+</td>
+
+<td>
+<input type="number" min="0" step=".01"
+value="${p.sellPrice||0}"
+data-i="${i}"
+data-f="sellPrice">
+</td>
+
+<td>
+<button class="secondary" data-sale="${i}">
+${monthlySales(p)} шт.
+</button>
+</td>
+
+<td>
+<button class="secondary" data-sale="${i}">
+${yearlySales(p)} шт.
+</button>
+</td>
+
+<td>
+<textarea data-i="${i}" data-f="note">${p.note||""}</textarea>
+</td>
+
+<td>
+<button class="danger" data-delete="${i}">×</button>
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+
+function renderMobile(list){
+
+const box=document.getElementById("mobileParts");
+
+if(!list.length){
+
+box.innerHTML=
+`<div class="empty">Нічого не знайдено</div>`;
+
+return;
+
+}
+
+
+box.innerHTML=list.map(x=>{
+
+const p=x.p;
+const i=x.i;
+
+return `
+
+<div class="part-card">
+
+<div class="part-top">
+
+<div>
+
+<div class="part-name">
+${p.name||"Без назви"}
+</div>
+
+<div class="part-article">
+Артикул: ${p.article||"—"}
+</div>
+
+</div>
+
+<div class="stock">
+
+${p.quantity||0}
+
+<small>в наявності</small>
+
+</div>
+
+</div>
+
+
+<div class="part-category">
+${p.category||"Комплектуючі"}
+</div>
+
+
+<div class="part-info">
+
+<div class="info-box">
+Закупка
+<b>$${Number(p.buyPrice||0).toFixed(2)}</b>
+</div>
+
+<div class="info-box">
+Продаж
+<b>$${Number(p.sellPrice||0).toFixed(2)}</b>
+</div>
+
+<div class="info-box">
+Цього місяця
+<b>${monthlySales(p)} шт.</b>
+</div>
+
+<div class="info-box">
+Цього року
+<b>${yearlySales(p)} шт.</b>
+</div>
+
+</div>
+
+
+${p.note?`
+<div class="note-box">
+📝 ${p.note}
+</div>
+`:""}
+
+
+<div class="part-actions">
+
+<button class="primary" data-mobile-edit="${i}">
+✏️ Редагувати
+</button>
+
+<button class="secondary" data-mobile-sales="${i}">
+📊 Продажі
+</button>
+
+<button class="danger" data-mobile-delete="${i}">
+×
+</button>
+
+</div>
+
+
+<div class="mobile-edit" id="edit-${i}">
+
+<div class="edit-grid">
+
+<label>
+Назва
+<input value="${p.name||""}" data-i="${i}" data-f="name">
+</label>
+
+<label>
+Артикул
+<input value="${p.article||""}" data-i="${i}" data-f="article">
+</label>
+
+<label>
+Наявність
+<input type="number" min="0"
+value="${p.quantity||0}"
+data-i="${i}" data-f="quantity">
+</label>
+
+<label>
+Закупка $
+<input type="number" min="0" step=".01"
+value="${p.buyPrice||0}"
+data-i="${i}" data-f="buyPrice">
+</label>
+
+<label>
+Продаж $
+<input type="number" min="0" step=".01"
+value="${p.sellPrice||0}"
+data-i="${i}" data-f="sellPrice">
+</label>
+
+<label>
+Категорія
+<select data-i="${i}" data-f="category">
+
+<option ${p.category==="Стартери"?"selected":""}>
+Стартери
+</option>
+
+<option ${p.category==="Генератори"?"selected":""}>
+Генератори
+</option>
+
+<option ${p.category==="Комплектуючі"?"selected":""}>
+Комплектуючі
+</option>
+
+</select>
+</label>
+
+<label style="grid-column:1/-1">
+Примітка
+<textarea data-i="${i}" data-f="note">${p.note||""}</textarea>
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+function update(i,f,v){
+
+if(["quantity","buyPrice","sellPrice"].includes(f)){
+v=Number(v||0);
+}
+
+parts[i][f]=v;
+
+save();
+render();
+renderSales();
+
+}
+
+
+function addPart(){
+
+const name=document
+.getElementById("fName")
+.value.trim();
+
+if(!name){
+
+alert("Введи назву");
+
+return;
+
+}
+
+
+parts.push({
+
+name:name,
+
+article:document
+.getElementById("fArticle")
+.value.trim(),
+
+category:document
+.getElementById("fCategory")
+.value,
+
+quantity:Number(
+document.getElementById("fQuantity").value||0
+),
+
+buyPrice:Number(
+document.getElementById("fBuyPrice").value||0
+),
+
+sellPrice:Number(
+document.getElementById("fSellPrice").value||0
+),
+
+note:document
+.getElementById("fNote")
+.value.trim(),
+
+sales:[]
+
+});
+
+
+save();
+closeModal();
+clearForm();
+render();
+renderSales();
+
+}
+
+
+function clearForm(){
+
+document.getElementById("fName").value="";
+document.getElementById("fArticle").value="";
+document.getElementById("fQuantity").value=0;
+document.getElementById("fBuyPrice").value=0;
+document.getElementById("fSellPrice").value=0;
+document.getElementById("fNote").value="";
+
+}
+
+
+function deletePart(i){
+
+if(confirm("Видалити запчастину?")){
+
+parts.splice(i,1);
+
+save();
+render();
+renderSales();
+
+}
+
+}
+
+
+function openModal(){
+
+document.getElementById("modal")
+.style.display="flex";
+
+}
+
+
+function closeModal(){
+
+document.getElementById("modal")
+.style.display="none";
+
+}
+
+
+function salesPage(){
+
+document.getElementById("partsPage")
+.classList.remove("active");
+
+document.getElementById("salesPage")
+.classList.add("active");
+
+document.getElementById("partsTab")
+.classList.remove("active");
+
+document.getElementById("salesTab")
+.classList.add("active");
+
+renderSales();
+
+}
+
+
+function partsPage(){
+
+document.getElementById("salesPage")
+.classList.remove("active");
+
+document.getElementById("partsPage")
+.classList.add("active");
+
+document.getElementById("salesTab")
+.classList.remove("active");
+
+document.getElementById("partsTab")
+.classList.add("active");
+
+render();
+
+}
+
+
+function renderSales(){
+
+const select=document.getElementById("salePart");
+
+select.innerHTML=parts.map((p,i)=>`
+
+<option value="${i}">
+${p.name} — ${p.article||"без артикулу"}
+</option>
+
+`).join("");
+
+
+const sales=allSales();
+
+const month=sales.filter(
+s=>s.date.startsWith(monthKey())
+);
+
+const year=sales.filter(
+s=>s.date.startsWith(yearKey())
+);
+
+
+const now=new Date();
+
+const start=new Date(
+now.getFullYear(),
+now.getMonth()-11,
+1
+);
+
+const last12=sales.filter(
+s=>{
+const d=new Date(s.date);
+return d>=start&&d<=now;
+});
+
+
+document.getElementById("salesPageMonth")
+.textContent=
+month.reduce((a,s)=>a+s.quantity,0)+" шт.";
+
+document.getElementById("salesPageYear")
+.textContent=
+year.reduce((a,s)=>a+s.quantity,0)+" шт.";
+
+document.getElementById("salesPage12")
+.textContent=
+last12.reduce((a,s)=>a+s.quantity,0)+" шт.";
+
+document.getElementById("salesPageTotal")
+.textContent=
+sales.reduce((a,s)=>a+s.quantity,0)+" шт.";
+
+
+renderHistory(sales);
+renderMonthly(sales);
+render12(sales);
+
+}
+
+
+function addSale(){
+
+const i=Number(
+document.getElementById("salePart").value
+);
+
+const date=document
+.getElementById("saleDate")
+.value;
+
+const quantity=Number(
+document.getElementById("saleQuantity")
+.value
+);
+
+
+if(!parts[i]){
+
+alert("Вибери запчастину");
+
+return;
+
+}
+
+if(!date){
+
+alert("Вибери дату");
+
+return;
+
+}
+
+if(quantity<1){
+
+alert("Вкажи кількість");
+
+return;
+
+}
+
+if(quantity>parts[i].quantity){
+
+alert("Недостатньо запчастин");
+
+return;
+
+}
+
+
+if(!parts[i].sales){
+parts[i].sales=[];
+}
+
+
+parts[i].quantity-=quantity;
+
+parts[i].sales.push({
+date:date,
+quantity:quantity
+});
+
+
+save();
+
+document.getElementById("saleQuantity")
+.value=1;
+
+render();
+renderSales();
+
+}
+
+
+function renderHistory(sales){
+
+const box=document
+.getElementById("salesHistory");
+
+if(!sales.length){
+
+box.innerHTML=
+`<div class="empty">
+Продажів ще немає
+</div>`;
+
+return;
+
+}
+
+
+sales.sort(
+(a,b)=>new Date(b.date)-new Date(a.date)
+);
+
+
+box.innerHTML=sales.map(s=>`
+
+<div class="sale-card">
+
+<div>
+
+<div class="sale-name">
+${s.name}
+</div>
+
+<div class="sale-date">
+${s.date}
+</div>
+
+</div>
+
+<div class="sale-quantity">
+${s.quantity} шт.
+</div>
+
+<button
+class="danger"
+data-delete-sale="${s.partIndex}"
+data-sale-index="${s.saleIndex}"
+>
+×
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function deleteSale(pi,si){
+
+const sale=parts[pi].sales[si];
+
+if(!sale)return;
+
+if(confirm("Видалити продаж?")){
+
+parts[pi].quantity+=Number(sale.quantity);
+
+parts[pi].sales.splice(si,1);
+
+save();
+render();
+renderSales();
+
+}
+
+}
+
+
+function renderMonthly(sales){
+
+const box=document
+.getElementById("monthlyStatistics");
+
+const months={};
+
+sales.forEach(s=>{
+
+const key=s.date.slice(0,7);
+
+if(!months[key]){
+months[key]={q:0,income:0};
+}
+
+months[key].q+=s.quantity;
+
+months[key].income+=
+s.quantity*s.price;
+
+});
+
+
+const names=[
+"Січень","Лютий","Березень",
+"Квітень","Травень","Червень",
+"Липень","Серпень","Вересень",
+"Жовтень","Листопад","Грудень"
+];
+
+
+const keys=Object.keys(months)
+.sort()
+.reverse();
+
+
+if(!keys.length){
+
+box.innerHTML=
+`<div class="empty">Немає даних</div>`;
+
+return;
+
+}
+
+
+box.innerHTML=keys.map(k=>{
+
+const [y,m]=k.split("-");
+
+return `
+
+<div class="stat-row">
+
+<div>
+${names[Number(m)-1]} ${y}
+</div>
+
+<div>
+${months[k].q} шт.
+</div>
+
+<div>
+$${months[k].income.toFixed(2)}
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+function render12(sales){
+
+const box=document
+.getElementById("twelveMonthStatistics");
+
+if(!sales.length){
+
+box.innerHTML=
+`<div class="empty">Немає даних</div>`;
+
+return;
+
+}
+
+
+const periods={};
+
+sales.forEach(s=>{
+
+const d=new Date(s.date);
+
+const endYear=d.getFullYear();
+
+const endMonth=d.getMonth();
+
+const start=new Date(
+endYear,
+endMonth-11,
+1
+);
+
+const key=
+start.getFullYear()+"-"+
+(start.getMonth()+1)+
+" — "+
+endYear+"-"+
+(endMonth+1);
+
+
+if(!periods[key]){
+periods[key]={
+q:0,
+income:0,
+start:start
+};
+}
+
+periods[key].q+=s.quantity;
+
+periods[key].income+=
+s.quantity*s.price;
+
+});
+
+
+const keys=Object.keys(periods)
+.sort()
+.reverse();
+
+
+box.innerHTML=keys.map(k=>`
+
+<div class="stat-row">
+
+<div>${k}</div>
+
+<div>${periods[k].q} шт.</div>
+
+<div>
+$${periods[k].income.toFixed(2)}
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+document.getElementById("partsTab")
+.onclick=partsPage;
+
+document.getElementById("salesTab")
+.onclick=salesPage;
+
+document.getElementById("addButton")
+.onclick=openModal;
+
+document.getElementById("cancelButton")
+.onclick=closeModal;
+
+document.getElementById("saveButton")
+.onclick=addPart;
+
+document.getElementById("sellButton")
+.onclick=addSale;
+
+
+document.getElementById("search")
+.oninput=render;
+
+document.getElementById("category")
+.onchange=render;
+
+
+document.getElementById("table")
+.addEventListener("change",e=>{
+
+const el=e.target;
+
+if(el.dataset.i){
+
+update(
+Number(el.dataset.i),
+el.dataset.f,
+el.value
+);
+
+}
+
+});
+
+
+document.getElementById("table")
+.addEventListener("click",e=>{
+
+const del=e.target.closest("[data-delete]");
+
+if(del){
+
+deletePart(
+Number(del.dataset.delete)
+);
+
+}
+
+const sale=e.target.closest("[data-sale]");
+
+if(sale){
+
+salesPage();
+
+document.getElementById("salePart")
+.value=sale.dataset.sale;
+
+}
+
+});
+
+
+document.getElementById("mobileParts")
+.addEventListener("change",e=>{
+
+const el=e.target;
+
+if(el.dataset.i){
+
+update(
+Number(el.dataset.i),
+el.dataset.f,
+el.value
+);
+
+}
+
+});
+
+
+document.getElementById("mobileParts")
+.addEventListener("click",e=>{
+
+const edit=e.target.closest("[data-mobile-edit]");
+
+if(edit){
+
+const box=document.getElementById(
+"edit-"+edit.dataset.mobileEdit
+);
+
+box.classList.toggle("open");
+
+}
+
+
+const del=e.target.closest("[data-mobile-delete]");
+
+if(del){
+
+deletePart(
+Number(del.dataset.mobileDelete)
+);
+
+}
+
+
+const sales=e.target.closest("[data-mobile-sales]");
+
+if(sales){
+
+salesPage();
+
+document.getElementById("salePart")
+.value=sales.dataset.mobileSales;
+
+}
+
+});
+
+
+document.getElementById("salesHistory")
+.addEventListener("click",e=>{
+
+const button=e.target.closest(
+"[data-delete-sale]"
+);
+
+if(button){
+
+deleteSale(
+Number(button.dataset.deleteSale),
+Number(button.dataset.saleIndex)
+);
+
+}
+
+});
+
+
+document.getElementById("modal")
+.addEventListener("click",e=>{
+
+if(e.target===e.currentTarget){
+closeModal();
+}
+
+});
+
+
+const today=new Date();
+
+document.getElementById("saleDate")
+.value=
+today.getFullYear()+"-"+
+String(today.getMonth()+1).padStart(2,"0")+"-"+
+String(today.getDate()).padStart(2,"0");
+
+
+render();
+renderSales();
+
+</script>
+
+</body>
+</html>
